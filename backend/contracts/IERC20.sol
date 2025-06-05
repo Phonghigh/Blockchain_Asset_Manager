@@ -6,6 +6,20 @@ pragma solidity ^0.8.0;
 interface IERC20 {
     /// @notice Trả về tổng cung token
     /// @return Tổng số token đang tồn tại
+    /**
+     * @dev Emitted when tokens are minted.
+     * @param to The address that received the minted tokens.
+     * @param amount The amount of tokens minted.
+     */
+    event Mint(address indexed to, uint256 amount); // Tùy chọn
+
+    /**
+     * @dev Emitted when tokens are burned.
+     * @param from The address whose tokens were burned.
+     * @param amount The amount of tokens burned.
+     */
+    event Burn(address indexed from, uint256 amount); // Tùy chọn
+    
     function totalSupply() external view returns (uint256);
 
     /// @notice Trả về số dư token của một địa chỉ
@@ -37,6 +51,24 @@ interface IERC20 {
     /// @param amount Số lượng token muốn chuyển
     /// @return Thành công hoặc thất bại của giao dịch
     function transferFrom(address from, address to, uint256 amount) external returns (bool);
+    /**
+     * @dev Creates `amount` tokens and assigns them to `to`, increasing
+     * the total supply.
+     * Emits a {Transfer} event with `from` set to the zero address.
+     * Requirements:
+     * - `to` cannot be the zero address.
+     */
+    function mint(address to, uint256 amount) external returns (bool);
+
+    /**
+     * @dev Destroys `amount` tokens from `account`, reducing the
+     * total supply.
+     * Emits a {Transfer} event with `to` set to the zero address.
+     * Requirements:
+     * - `account` cannot be the zero address.
+     * - `account` must have at least `amount` tokens.
+     */
+    function burn(address account, uint256 amount) external returns (bool);
 
     /// @notice Sự kiện khi token được chuyển
     event Transfer(address indexed from, address indexed to, uint256 value);
